@@ -1,0 +1,40 @@
+<html>
+    <style>
+        @font-face {
+  font-family: fashionFont;
+  src: "./AguafinaScript-Regular.ttf";
+    }
+
+        .nav{
+    border:1px solid #ccc;
+    border-width:1px 0;
+    list-style:none;
+    margin:0;
+    padding:0;
+    text-align:center;
+}
+.nav li{
+    display:inline;
+}
+.nav a{
+    display:inline-block;
+    padding:10px;
+    font-size: 30px;
+}
+    </style>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aguafina+Script&display=swap" rel="stylesheet">
+    <center>
+        <h1 style="font-size: 80px; font-family: 'Aguafina Script', cursive;">Fashion Recommendation System</h1>
+    </center>
+</head>
+<body>
+    {% block navbar %}
+    {% endblock %}
+    
+     {% block content %}
+     {% endblock %}
+</body>
+</html>

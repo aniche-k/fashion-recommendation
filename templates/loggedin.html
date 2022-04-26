@@ -1,0 +1,16 @@
+{% extends "logintemplate.html" %}
+{% block navbar %}
+<ul class="nav">
+    <li><a href="/">Home</a></li>
+    <li><a href="/fashion">Profile</a></li>
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+{% endblock %}
+{% block content %}
+<center>
+<h1>Hello You are logged in</h1>
+<h2>{{ pred }} </h2>
+<button onclick="location.href= '/fashion';">Upload To Wardrobe</button>
+<button onclick="location.href= '/select';">Outfit Recommender</button>
+{% endblock %}
+</center>

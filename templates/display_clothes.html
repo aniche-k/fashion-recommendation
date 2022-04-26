@@ -1,0 +1,89 @@
+<html>
+    <style>
+      @font-face {
+  font-family: fashionFont;
+  src: "./AguafinaScript-Regular.ttf";
+    }
+
+        .nav{
+    border:1px solid #ccc;
+    border-width:1px 0;
+    list-style:none;
+    margin:0;
+    padding:0;
+    text-align:center;
+}
+.nav li{
+    display:inline;
+}
+.nav a{
+    display:inline-block;
+    padding:10px;
+    font-size: 30px;
+}
+        [type=radio] { 
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* IMAGE STYLES */
+[type=radio] + img {
+  cursor: pointer;
+}
+
+/* CHECKED STYLES */
+[type=radio]:checked + img {
+  outline: 2px solid #f00;
+}
+    </style>
+    <script>
+var loadFile = function(event) {
+	var image = document.getElementById('output');
+	image.src = URL.createObjectURL(event.target.files[0]);
+};
+
+    </script>
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aguafina+Script&display=swap" rel="stylesheet">
+  <center>
+      <h1 style="font-size: 80px; font-family: 'Aguafina Script', cursive;">Fashion Recommendation System</h1>
+  </center>
+</head>    
+<body>
+  <ul class="nav">
+    <li><a href="/">Home</a></li>
+    <li><a href="/fashion">Profile</a></li>
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+<center>
+    <h1>Hello {{ current_user.uname }} </h1>
+<h2>You are logged in</h2>
+<a href='/fashion'>Upload To Wardrobe</a> <a href='/select'>Outfit Recommender</a> 
+<h1></h1>
+<h3> Select An Outfit</h3>
+<form action="\recommend" method="POST">
+{% for i in img %}
+<label>
+<input type="radio" name="cloth" value="{{i}}">
+<img height=300 width=300 src="{{ url_for('download_file', filename=i) }}">
+</label>
+{% endfor %}
+<br><br><br><br>
+<label for="occasion"> <h3 style="display:inline">The Outfit is for: </h3></label>
+          <select name="occasion" id="occasion">
+            <option value="party">Party</option>
+            <option value="office">Office</option>
+            <option value="sports">Sports</option>
+            <!-- <option value="function">Function</option> -->
+          </select>
+<br><br><br><br>
+<center><input type="submit" value="Submit"></center>
+</form>
+<!---<img src="{{ url_for('download_file', filename='hello/pants/khaki/1.jpg') }}"> -->
+<!-- <img src="../users/hello/pants/khaki/1.jpg"> -->
+</body></center>  
+</html>

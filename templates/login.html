@@ -1,0 +1,23 @@
+{% extends "logintemplate.html" %}
+{%block navbar %}
+<ul class="nav">
+    <li><a href="/">Home</a></li>
+    <li><a href="/login">Login</a></li>
+    <li><a href="/signup">Register</a></li>
+  </ul>
+  {% endblock %}
+{% block content %}
+      <center>
+        <h2>Login using Username Password</h2>
+        <form action="/loginresult" method="POST">
+        <label for="uname">Username: </label>
+        <input type="text" id="uname" name="uname">
+        <br><br>
+        <label for="pwd">Password: </label>
+        <input type="text" id="pwd" name="pwd">
+        <br> <br>
+        <input type="submit" value="Submit">
+
+    </form>
+</center>
+{% endblock %}
