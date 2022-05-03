@@ -4,7 +4,30 @@
   font-family: fashionFont;
   src: "./AguafinaScript-Regular.ttf";
     }
+button {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+}
 
+button:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.previous {
+  background-color: black;
+  color: white;
+}
+
+.next {
+  background-color: black;
+  color: white;
+}
+
+.round {
+  border-radius: 50%;
+}
         .nav{
     border:1px solid #ccc;
     border-width:1px 0;
@@ -12,14 +35,22 @@
     margin:0;
     padding:0;
     text-align:center;
+    background-color: black;
 }
 .nav li{
     display:inline;
+    padding:30px;
 }
 .nav a{
     display:inline-block;
     padding:10px;
     font-size: 30px;
+    color:white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-decoration: none;
+}
+.nav a:hover{
+    color:grey;
 }
     </style>
 <head>

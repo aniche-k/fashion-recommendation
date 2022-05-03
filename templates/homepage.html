@@ -1,10 +1,18 @@
 {% extends "logintemplate.html" %}
 {%block navbar %}
+{%if current_user.is_authenticated %}
+<ul class="nav">
+    <li><a href="/">Home</a></li>
+    <li><a href="/fashion">Profile</a></li>
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+{% else %}
 <ul class="nav">
     <li><a href="/">Home</a></li>
     <li><a href="/login">Login</a></li>
     <li><a href="/signup">Register</a></li>
   </ul>
+{% endif %}
   {% endblock %}
 {% block content %}
       <center>

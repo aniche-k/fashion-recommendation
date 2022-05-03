@@ -202,6 +202,17 @@ def recommend_next():
         flash("Reached end of list")
         return render_template("display_result.html",img=res[next-1],hiden="hidden")
 
+@app.route('/recommendprev')
+def recommend_previous():
+    global next
+    next=next-1
+    global res
+    if(next>=0):
+        mes=res[next]
+        return render_template("display_result.html",img=mes)
+    else:
+        flash("Reached end of list")
+        return render_template("display_result.html",img=res[next+1],hiden2="hidden")
 
 if __name__ == '__main__':
     app.run(debug=True)
