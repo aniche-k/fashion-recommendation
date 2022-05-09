@@ -37,12 +37,7 @@ def recommend_default(type,color,occasion,uname):
             pant_shirt=office_arr["x"]
     
         path_pant=os.listdir(r"users\{}\pants".format(uname))
-        if(occasion=="office"):
-            path_shirt=os.listdir(r"users\{}\shirt".format(uname))
-        if(occasion=="sports"):
-            path_shirt=os.listdir(r"users\{}\t-shirt".format(uname))
-        if(occasion=="party"):
-            path_shirt=os.listdir(r"users\{}\party".format(uname))
+        path_shirt=os.listdir(r"users\{}\shirt".format(uname))
         path_shoe=os.listdir(r"users\{}\shoes".format(uname))
         
         # print(path_pant)
@@ -89,19 +84,13 @@ def recommend_default(type,color,occasion,uname):
         print(l)
         
 
-def select_image(l,type,path,uname,occasion):
+def select_image(l,type,path,uname):
     print("uname is: ",uname)
     pant_col=l[0].lower()
     shirt_col=l[1].lower()
     shoe_col=l[2].lower()
     path_pant=r"users\{}\pants\{}".format(uname,pant_col)
-    if(occasion=="office"):
-        path_shirt=r"users\{}\shirt\{}".format(uname,shirt_col)
-    if(occasion=="sports"):
-        path_shirt=r"users\{}\t-shirt\{}".format(uname,shirt_col)
-    if(occasion=="party"):
-        path_shirt=r"users\{}\party\{}".format(uname,shirt_col)
-    #path_shirt=r"users\{}\shirt\{}".format(uname,shirt_col)
+    path_shirt=r"users\{}\shirt\{}".format(uname,shirt_col)
     path_shoes=r"users\{}\shoes\{}".format(uname,shoe_col)
     pants_list=os.listdir(path_pant)
     shirts_list=os.listdir(path_shirt)
@@ -134,7 +123,7 @@ def execute(type,color,path,occasion,uname):
     #print(l)
     #print(index_pant,index_shirt,index_shoe)       
     for i in range(count):
-        select_image(l[i],type,path,uname,occasion)
+        select_image(l[i],type,path,uname)
     # print(res)
     return res
 

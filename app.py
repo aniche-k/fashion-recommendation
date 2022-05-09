@@ -20,9 +20,12 @@ from flask_login import UserMixin
 from flask_login import LoginManager,login_user,login_required,logout_user,current_user
 from flask.json import jsonify
 import wardrobe,recommender
+from PIL import Image, ImageOps
+import numpy as np
 fashion_model=tf.keras.models.load_model('models/fashion-010.model')
 color_model=tf.keras.models.load_model('models/fashion-colors-020.model')
-
+color_model_2=load_model('models/keras_model.h5')
+type_model_2=load_model('models/type_model.h5')
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(12)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
@@ -31,13 +34,15 @@ temp=None
 next= -1
 res=[[]]
 colors_array=['black', 'blue', 'brown', 'green', 'grey', 'khaki', 'marron', 'orange', 'pink', 'red', 'white', 'yellow']
-type_array=['longsleeve','outwear','pants','shirt','shoes','t-shirt']
+#type_array=['longsleeve','outwear','pants','shirt','shoes','t-shirt']
+type_array=['shirt','shoes','pants','t-shirt']
 
 def matching(arr,target):
     for i in range(len(arr)):
         if arr[i] == 1:
             return target[i]
-
+def matching_2(arr,target):
+    return 
 
 
 class User(UserMixin,db.Model):
@@ -132,13 +137,30 @@ def fashion_predict():
     npimg = np.fromstring(filestr, np.uint8)
     img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
     cv2.imwrite("static/test.jpg",img)
-    gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)           
-    resized=cv2.resize(gray,(100,100))
-    r=resized.reshape(1,100,100,1)
-    predict=fashion_model.predict(r).tolist()
-    predict2=color_model.predict(r).tolist()
-    predict=matching(predict[0],type_array)
-    predict2=matching(predict2[0],colors_array)
+    # gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)           
+    # resized=cv2.resize(gray,(100,100))
+    # r=resized.reshape(1,100,100,1)
+    # predict=fashion_model.predict(r).tolist()
+    #predict2=color_model.predict(r).tolist()
+    data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+    # Replace this with the path to your image
+    image = Image.open('static/test.jpg')
+    #resize the image to a 224x224 with the same strategy as in TM2:
+    #resizing the image to be at least 224x224 and then cropping from the center
+    size = (224, 224)
+    image = ImageOps.fit(image, size, Image.ANTIALIAS)
+    #turn the image into a numpy array
+    image_array = np.asarray(image)
+    # Normalize the image
+    normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
+    # Load the image into the array
+    data[0] = normalized_image_array
+    predict=type_model_2.predict(data)
+    predict=type_array[np.argmax(predict[0],axis=0)]
+    predict2=color_model_2.predict(data)
+    predict2=colors_array[np.argmax(predict2[0],axis=0)]
+    #predict=matching(predict[0],type_array)
+    #predict2=matching(predict2[0],colors_array)
     return render_template("fashion.html",pred=predict,pred2=predict2,image1="test.jpg")
 
 @app.route('/upload',methods=["POST"])
@@ -184,7 +206,7 @@ def recommend_combination():
     next=0
     global res
     res=[[]]
-    res=recommender.execute(type,color,path,occasion)
+    res=recommender.execute(type,color,path,occasion,current_user.get_uname())
     print(res)
     print(next)
     #print(pred)
