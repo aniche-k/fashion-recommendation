@@ -1,5 +1,5 @@
 from enum import unique
-from flask import Flask, flash,request, send_from_directory,url_for,render_template
+from flask import Flask, flash, redirect,request, send_from_directory,url_for,render_template
 from flask_sqlalchemy import SQLAlchemy
 import os
 import werkzeug
@@ -22,8 +22,8 @@ from flask.json import jsonify
 import wardrobe,recommender
 from PIL import Image, ImageOps
 import numpy as np
-fashion_model=tf.keras.models.load_model('models/fashion-010.model')
-color_model=tf.keras.models.load_model('models/fashion-colors-020.model')
+# fashion_model=tf.keras.models.load_model('models/fashion-010.model')
+# color_model=tf.keras.models.load_model('models/fashion-colors-020.model')
 color_model_2=load_model('models/keras_model.h5')
 type_model_2=load_model('models/type_model.h5')
 app = Flask(__name__)
@@ -95,7 +95,8 @@ def login_result():
     if not user or not check_password_hash(user.password,pwd):
         return "<h1>Enter correct Details </h1>"
     login_user(user,remember=True)
-    return render_template("loggedin.html",pred=user.to_json())
+    #return render_template("loggedin.html",pred=user.to_json())
+    return redirect(url_for('user_profile'))
 
 @app.route('/logout')
 @login_required
@@ -103,6 +104,40 @@ def logout():
     logout_user()
     #return jsonify(**{'result': 200,'data': {'message': 'logout success'}})
     return render_template("logout.html")
+@app.route('/userprofile')
+def user_profile():
+    root=r"users/"+(current_user.get_uname())+"/"
+    l=[]
+    shirts=[]
+    tshirts=[]
+    pants=[]
+    shoes=[]
+    for path, subdirs, files in os.walk(root):
+        path_type=(path.replace(root,"")).split("\\")[0]
+        for name in files:
+            if path_type=="shirt":
+                shirts.append(((os.path.join(path, name)).replace("\\","/")).replace("users/",""))
+            elif path_type=="pants":
+                pants.append(((os.path.join(path, name)).replace("\\","/")).replace("users/",""))
+            elif path_type=="t-shirt":
+                tshirts.append(((os.path.join(path, name)).replace("\\","/")).replace("users/",""))
+            elif path_type== "shoes":
+                shoes.append(((os.path.join(path, name)).replace("\\","/")).replace("users/",""))
+    return render_template("profile.html",lshirts=shirts,ltshirts=tshirts,lshoes=shoes,lpants=pants)        
+
+@app.route('/updatedwardrobe',methods=["POST"])
+def remove_item():
+    item_list=request.form.getlist("cloth")
+    for item in item_list:
+        path="users/"+item
+        os.remove(path)
+    #print(list)
+    if len(item_list) > 1:
+        flash("Items have been removed from the wardrobe")
+    else:
+        flash("Item has been removed from the wardrobe")
+    return redirect(url_for('user_profile'))
+
 
 @app.route('/signup')
 def signup():
@@ -181,13 +216,31 @@ def select_clothes():
     global next
     next = 0
     recommender.clear()
-    root=r"users/"
+    root=r"users/"+(current_user.get_uname())+"/"
     l=[]
+    shirts=[]
+    tshirts=[]
+    pants=[]
+    shoes=[]
     for path, subdirs, files in os.walk(root):
+        print(files)
+        print(subdirs)
+        print(path)
+        path_type=(path.replace(root,"")).split("\\")[0]
         for name in files:
-            l.append(((os.path.join(path, name)).replace("\\","/")).replace("users/",""))
-    print(l)
-    return render_template("display_clothes.html",img=l)
+            if path_type=="shirt":
+                shirts.append(((os.path.join(path, name)).replace("\\","/")).replace("users/",""))
+            elif path_type=="pants":
+                pants.append(((os.path.join(path, name)).replace("\\","/")).replace("users/",""))
+            elif path_type=="t-shirt":
+                tshirts.append(((os.path.join(path, name)).replace("\\","/")).replace("users/",""))
+            elif path_type== "shoes":
+                shoes.append(((os.path.join(path, name)).replace("\\","/")).replace("users/",""))
+            #l.append(((os.path.join(path, name)).replace("\\","/")).replace("users/",""))
+   # print(l)
+    #return render_template("display_clothes.html",img=l)
+    print(shirts,tshirts,shoes,pants)
+    return render_template("display_clothes.html",lshirts=shirts,ltshirts=tshirts,lshoes=shoes,lpants=pants)
 
 @app.route('/recommend',methods=["POST"])
 def recommend_combination():
