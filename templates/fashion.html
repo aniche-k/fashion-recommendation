@@ -15,9 +15,9 @@ var loadFile = function(event) {
     </script>
 {% block content %}
 <center>
-    <h1>Hello {{ current_user.uname }} </h1>
-<h2>You are logged in</h2>
-<a href='/fashion'>Upload To Wardrobe</a> <a href='/select'>Outfit Recommender</a> 
+    <h1 class="font1">Upload Clothes to Your Wardrobe </h1>
+<h2 class="font1">You are logged in as {{ current_user.uname }} </h2>
+<a href='/fashion'class="specialbutton">Upload To Wardrobe</a> <a href='/select' class="specialbutton">Outfit Recommender</a> 
 <br><br>
 <form action="/fashionpredict" method="POST" enctype="multipart/form-data">
     <input type="file" id='img' name='img' onchange="loadFile(event)" >

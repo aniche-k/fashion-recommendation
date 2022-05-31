@@ -26,7 +26,7 @@ index_shoe=[]
 l=[]
 res=[]
 def recommend_default(type,color,occasion,uname):
-        max=0
+        max=float('-inf')
         #occasion="None"
         print(uname)
         if occasion == "sports":
@@ -52,7 +52,7 @@ def recommend_default(type,color,occasion,uname):
         if type != "pants":
             for i in path_pant:
                 pant_colors_available.append(colors.index(i.upper()))
-        if type != "shirt" :
+        if type != "shirt" and type != "t-shirt" :
             for i in path_shirt:
                 shirt_colors_available.append(colors.index(i.upper()))
         if type != "shoes" :
@@ -60,7 +60,7 @@ def recommend_default(type,color,occasion,uname):
                 shoe_colors_available.append(colors.index(i.upper()))
         if type == "pants":
             pant_colors_available.append(colors.index(color.upper()))
-        if type == "shirt" :
+        if type == "shirt" or type == "t-shirt" :
             shirt_colors_available.append(colors.index(color.upper()))
         if type == "shoes":
             shoe_colors_available.append(colors.index(color.upper()))
@@ -107,15 +107,16 @@ def select_image(l,type,path,uname,occasion):
     shirts_list=os.listdir(path_shirt)
     shoes_list=os.listdir(path_shoes)
     #i=int((pants_list[len(pants_list)-1]).rstrip(".jpg"))
+    print("Pant list is:",os.listdir(path_pant))
     if type != "pants":
         pant_full_path=((path_pant+"\{}".format(random.choice(pants_list))).replace("\\","/")).replace("users/","")
-    if type != "shirt":
+    if type != "shirt" and type != "t-shirt" :
         shirt_full_path=(path_shirt+"\{}".format(random.choice(shirts_list))).replace("\\","/").replace("users/","")
     if type != "shoes":
         shoe_full_path=(path_shoes+"\{}".format(random.choice(shoes_list))).replace("\\","/").replace("users/","")
     if type == "pants":
         pant_full_path=path
-    if type == "shirt":
+    if type == "shirt" or type == "t-shirt":
         shirt_full_path=path
     if type == "shoes":
         shoe_full_path=path
@@ -126,8 +127,9 @@ def execute(type,color,path,occasion,uname):
     while(True):
         try:
             recommend_default(type,color,occasion,uname)
-        except:
-            #print("Count Is ",count)
+        except Exception as e :
+            print("Count Is ",count)
+            #print('Failed to do something: ' + str(e))
             break
         count+=1
 

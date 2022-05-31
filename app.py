@@ -22,6 +22,8 @@ from flask.json import jsonify
 import wardrobe,recommender
 from PIL import Image, ImageOps
 import numpy as np
+import re
+import time
 # fashion_model=tf.keras.models.load_model('models/fashion-010.model')
 # color_model=tf.keras.models.load_model('models/fashion-colors-020.model')
 color_model_2=load_model('models/keras_model.h5')
@@ -128,9 +130,31 @@ def user_profile():
 @app.route('/updatedwardrobe',methods=["POST"])
 def remove_item():
     item_list=request.form.getlist("cloth")
+    if(len(item_list)==0):
+        flash("Please select atleast one item that is to be removed.")
+        return redirect(url_for('user_profile'))
     for item in item_list:
         path="users/"+item
+        path_type=item.split("/")[1]
+        print("Path type is ",path_type)
+        if path_type=="shirt" or path_type=="t-shirt":
+            creation_time=time.ctime(os.path.getctime(path))
+            print(creation_time)
+            party_path=r"users\{}\party\{}".format(current_user.get_uname(),item.split("/")[2])
+            party_list=os.listdir(party_path)
+            print("Party list is",party_list)
+            for shirt in party_list:
+                path_party_shirt=party_path+"\{}".format(shirt)
+                print("Time of creation for {} is {}".format(shirt,int(os.path.getctime(path_party_shirt))))
+                if (time.ctime(os.path.getctime(path_party_shirt)))==creation_time:
+                    os.remove(path_party_shirt)
+                    if(len(os.listdir(party_path))==0):
+                        os.rmdir(party_path)
+
         os.remove(path)
+        new_path=re.sub(r"/[\d].jpg","",path)
+        if(len(os.listdir(new_path))==0):
+            os.rmdir(new_path)
     #print(list)
     if len(item_list) > 1:
         flash("Items have been removed from the wardrobe")
@@ -200,8 +224,17 @@ def fashion_predict():
 
 @app.route('/upload',methods=["POST"])
 def outfit_upload():
-    type=request.form["type"]
-    color=request.form["color"]
+    try:
+        filestr = request.files['img'].read()
+        npimg = np.fromstring(filestr, np.uint8)
+        img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+        cv2.imwrite("static/test.jpg",img)
+    except:
+        type=request.form["type"]
+        color=request.form["color"]
+    finally:
+        type=request.form["type"]
+        color=request.form["color"]
     #occasion=request.form["occasion"]
     #wardrobe.upload(occasion,type,color,"users/"+current_user.get_uname(),cv2.imread("static/test.jpg"))
     wardrobe.upload(type,color,"users/"+current_user.get_uname(),cv2.imread("static/test.jpg"))
@@ -274,7 +307,7 @@ def recommend_next():
         mes=res[next]
         return render_template("display_result.html",img=mes)
     except IndexError:
-        flash("Reached end of list")
+        #flash("Reached end of list")
         return render_template("display_result.html",img=res[next-1],hiden="hidden")
 
 @app.route('/recommendprev')
@@ -286,7 +319,7 @@ def recommend_previous():
         mes=res[next]
         return render_template("display_result.html",img=mes)
     else:
-        flash("Reached end of list")
+        #flash("Reached end of list")
         return render_template("display_result.html",img=res[next+1],hiden2="hidden")
 
 if __name__ == '__main__':
