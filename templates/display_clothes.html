@@ -6,31 +6,31 @@
     }
     .font1{
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color:purple;
     }
-
-        .nav{
+    .nav{
     border:1px solid #ccc;
     border-width:1px 0;
     list-style:none;
     margin:0;
     padding:0;
     text-align:center;
-    background-color: black;
+    background-color: #6A5ACD;
 }
 .nav li{
     display:inline;
     padding:30px;
 }
 .nav a{
-  display:inline-block;
+    display:inline-block;
     padding:10px;
     font-size: 30px;
-    color:white;
+    color:yellow;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-decoration: none;
 }
 .nav a:hover{
-    color:grey;
+    color:purple;
 }
 
         [type=radio] { 
@@ -47,23 +47,22 @@
 
 /* CHECKED STYLES */
 [type=radio]:checked + img {
-  outline: 2px solid #f00;
+  outline: 5px solid #f00;
 }
 .specialbutton {
   text-decoration: none;
   display: inline-block;
   padding: 30px 120px;
-  background-color: black;
-  color: white;
+  background-color: #6A5ACD;
+  color: yellow;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: larger;
 }
 
 .specialbutton:hover {
-  background-color: #ddd;
-  color: black;
+  background-color: lightyellow;
+  color: purple;
 }
-
 .round {
   border-radius: 50%;
 }
@@ -80,7 +79,8 @@ var loadFile = function(event) {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Aguafina+Script&display=swap" rel="stylesheet">
   <center>
-    <marquee scrollamount="20"><h1 style="font-size: 80px; font-family: 'Aguafina Script', cursive;">Fashion Recommendation System</h1></marquee>
+    <h1 style="font-size: 80px; font-family: 'Aguafina Script', cursive; color: purple;">Fashion Recommendation System</h1>
+    <!-- <marquee scrollamount="20"><h1 style="font-size: 80px; font-family: 'Aguafina Script', cursive;">Fashion Recommendation System</h1></marquee> -->
   </center>
 </head>    
 <body>
@@ -96,7 +96,7 @@ var loadFile = function(event) {
 <h1></h1>
 <h3 class="font1">Choose the occasion and hit Recommend</h3>
 <form action="\recommend" method="POST">
-<h2>Shirts: </h2>
+<h2 class="font1">Shirts: </h2>
 {% for i in lshirts %}
 <label>
 <input type="radio" name="cloth" value="{{i}}">
@@ -106,7 +106,7 @@ var loadFile = function(event) {
     <h2>Please Upload Images of your Shirts to the wardrobe </h2>
 {% endfor %}
 <br><br><br><br>
-<h2>T-Shirts: </h2>
+<h2 class="font1">T-Shirts: </h2>
 {% for i in ltshirts %}
 <label>
   <input type="radio" name="cloth" value="{{i}}">
@@ -116,7 +116,7 @@ var loadFile = function(event) {
     <h2>Please Upload Images of your T-Shirts to the wardrobe </h2>
   {% endfor %}
   <br><br><br><br>
-<h2>Shoes: </h2>
+<h2 class="font1">Shoes: </h2>
 {% for i in lshoes %}
 <label>
   <input type="radio" name="cloth" value="{{i}}">
@@ -126,7 +126,7 @@ var loadFile = function(event) {
     <h2>Please Upload Images of your Shoes to the wardrobe </h2>
   {% endfor %}
   <br><br><br><br>
-<h2>Pants: </h2>
+<h2 class="font1">Pants: </h2>
 {% for i in lpants %}
 <label>
   <input type="radio" name="cloth" value="{{i}}">
@@ -136,7 +136,7 @@ var loadFile = function(event) {
     <h2>Please Upload Images of your Pants to the wardrobe </h2>
   {% endfor %}
   <br><br><br><br>
-<label for="occasion"> <h3 style="display:inline">The Outfit is for: </h3></label>
+<label for="occasion"> <h3 style="display:inline" class="font1">The Outfit is for: </h3></label>
           <select name="occasion" id="occasion">
             <option value="party">Party</option>
             <option value="office">Office</option>

@@ -8,15 +8,16 @@
 {% endblock %}
 {% block content %}
 <center>
-        <h1>Signup using Username Password</h1>
+        <h1 class="font1">Signup using Username Password</h1>
         <form action="/signupresult" method="POST">
-        <label for="uname">Username: </label>
+        <label for="uname" class="font1" style="font-size: 20px;">Username: </label>
         <input type="text" id="uname" name="uname">
         <br><br>
-        <label for="pwd">Password: </label>
+        <label for="pwd" class="font1" style="font-size: 20px;">Password: </label>
         <input type="password" id="pwd" name="pwd">
         <br> <br>
-        <input type="submit" value="Submit">
+        <h4 class="font1" style="color:red;">{{pred}}</h4>
+        <input class="specialbutton" type="submit" value="Submit">
 </form>
 </center>
 {% endblock %}

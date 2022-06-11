@@ -95,7 +95,7 @@ def login_result():
     pwd=request.form['pwd']
     user=User.query.filter_by(uname=name).first()
     if not user or not check_password_hash(user.password,pwd):
-        return "<h1>Enter correct Details </h1>"
+        return render_template("login.html",pred="Enter correct Details")
     login_user(user,remember=True)
     #return render_template("loggedin.html",pred=user.to_json())
     return redirect(url_for('user_profile'))
@@ -173,12 +173,12 @@ def signup_result():
     pwd=request.form['pwd']
     user=User.query.filter_by(uname=name).first()
     if user:
-        return "Already exists"
+        return render_template("signup.html",pred="User Already Exists")
     new_user = User(uname=name, password=generate_password_hash(pwd, method='sha256'))
     wardrobe.create_wardrobe(name)
     db.session.add(new_user)
     db.session.commit()
-    return "Added User. Please Login"
+    return render_template("signup_res.html",pred="User has been created. Please sign in.")
 
 @app.route('/logout')
 def mogout():
@@ -188,6 +188,7 @@ def mogout():
 @app.route("/fashion")
 @login_required
 def fashion():
+    cv2.imwrite("static/test.jpg",cv2.imread("static/station.jpg"))
     return render_template("fashion.html")
 
 @app.route("/fashionpredict",methods=["POST"])
