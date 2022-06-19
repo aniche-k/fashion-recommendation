@@ -1,5 +1,18 @@
-{% extends "logintemplate.html" %}
-{%block navbar %}
+<html>
+<head>
+    <title>Fashion Recommendation System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aguafina+Script&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" type="text/css" href="../static/custom.css">
+    <center>
+        <h1 class="fonttitle">Fashion Recommendation System</h1>
+        <!-- <marquee scrollamount="20"><h1 style="font-size: 80px; font-family: 'Aguafina Script', cursive; color: purple;">Fashion Recommendation System</h1></marquee> -->
+    </center>
+    
+</head>
+<body>
 {%if current_user.is_authenticated %}
 <ul class="nav">
     <li><a href="/">Home</a></li>
@@ -13,9 +26,79 @@
     <li><a href="/signup">Register</a></li>
   </ul>
 {% endif %}
-  {% endblock %}
-{% block content %}
-      <center>
-        <h1 class="font1">Welcome To Fashion Recommendation System</h1>
-</center>
-{% endblock %}
+<br><br><br>
+<div class="flex flex-col text-center w-full mb-20">
+  <h1 class="lg:text-3xl text-2xl font-medium title-font mb-4 text-purple-900" style="animation:1s ease-out 0s 1 slideInFromTop; font-size: 50px; vertical-align: middle;">Welcome To Fashion Recommendation System</h1>
+  <br><br>
+  <p class="lg:w-2/3 mx-auto leading-relaxed text-base" style="font-size: 20px">The proposed Fashion Recommendation System provides the user a digital wardrobe where they can store images of their clothes. It recommends the most suitable clothing combinations from the user's wardrobe for a given occasion. The system is built with deep learning models to automatically detect the type and color of the clothing. 
+  </p>
+</div>
+<br>
+<div class="flex flex-wrap -m-4">
+<div class="p-4 md:w-1/3">
+<div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
+<div class="flex items-center mb-3">
+  <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
+    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+  </div>
+  <h2 class="text-gray-900 text-lg title-font font-medium">Aneesh K</h2>
+</div>
+<div class="flex-grow">
+  <p class="leading-relaxed text-base">Developed the Smart Healthcare System Website.</p>
+  <a class="mt-3 text-indigo-500 inline-flex items-center" href="mailto: 18311a0566@sreenidhi.edu.in">Contact Me
+    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+      <path d="M5 12h14M12 5l7 7-7 7"></path>
+    </svg>
+  </a>
+</div>
+</div>
+</div>
+<div class="p-4 md:w-1/3">
+<div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
+<div class="flex items-center mb-3">
+  <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
+    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+  </div>
+  <h2 class="text-gray-900 text-lg title-font font-medium">Sai Uday Nagula</h2>
+</div>
+<div class="flex-grow">
+  <p class="leading-relaxed text-base">Performed Exploratory Data Analysis, and implemented the machine learning models for detecting Heart, Liver and Diabetes Diseases. </p>
+  <a class="mt-3 text-indigo-500 inline-flex items-center" href="mailto: 18311a05b0@sreenidhi.edu.in">Contact me
+    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+      <path d="M5 12h14M12 5l7 7-7 7"></path>
+    </svg>
+  </a>
+</div>
+</div>
+</div>
+<div class="p-4 md:w-1/3">
+<div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
+<div class="flex items-center mb-3">
+  <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
+    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+  </div>
+  <h2 class="text-gray-900 text-lg title-font font-medium">PV Rohith Kumar</h2>
+</div>
+<div class="flex-grow">
+  <p class="leading-relaxed text-base">Built the model architecture and engineered Deep Learning Models for detecting COVID-19, Pneumonia, Diabetes, Brain Tumors and Malaria</p>
+  <a class="mt-3 text-indigo-500 inline-flex items-center" href="mailto: 18311a05a5@sreenidhi.edu.in">Contact Me
+    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+      <path d="M5 12h14M12 5l7 7-7 7"></path>
+    </svg>
+  </a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+

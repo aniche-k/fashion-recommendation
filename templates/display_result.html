@@ -33,9 +33,15 @@ var loadFile = function(event) {
 <br><br><br><br>
 <!-- 
 <input type="Submit" value="Next"> -->
-<button {{hiden}} onclick="location.href= '/recommendnext';" class="specialbutton">Next</button>
-<button {{hiden2}} onclick="location.href= '/recommendprev';" class="specialbutton">Previous</button>
+{% if hiden == "hidden1" %}
+    <button  onclick="location.href= '/recommendprev';" class="specialbutton">Previous</button>
+{% elif hiden == "hidden2" %}
+    <button  onclick="location.href= '/recommendnext';" class="specialbutton">Next</button>
+{% else %}
+    <button  onclick="location.href= '/recommendnext';" class="specialbutton">Next</button>
+    <button  onclick="location.href= '/recommendprev';" class="specialbutton">Previous</button>
 </form>
+{% endif %}
 <!---<img src="{{ url_for('download_file', filename='hello/pants/khaki/1.jpg') }}"> -->
 <!-- <img src="../users/hello/pants/khaki/1.jpg"> -->
 </center>

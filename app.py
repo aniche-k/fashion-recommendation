@@ -239,7 +239,8 @@ def outfit_upload():
     #occasion=request.form["occasion"]
     #wardrobe.upload(occasion,type,color,"users/"+current_user.get_uname(),cv2.imread("static/test.jpg"))
     wardrobe.upload(type,color,"users/"+current_user.get_uname(),cv2.imread("static/test.jpg"))
-    return render_template("fashion.html",pred3=type,pred4=color)
+    cv2.imwrite("static/test.jpg",cv2.imread("static/station.jpg"))
+    return render_template("fashion.html",pred3="The image of your "+color+" "+type+" has been uploaded successfully.")
 
 @app.route('/uploads/<path:filename>')
 def download_file(filename):
@@ -303,25 +304,27 @@ def recommend_combination():
 def recommend_next():
     global next
     next=next+1
+    print("Value of next in recommend next:",next)
     global res
     try:
         mes=res[next]
         return render_template("display_result.html",img=mes)
     except IndexError:
         #flash("Reached end of list")
-        return render_template("display_result.html",img=res[next-1],hiden="hidden")
+        return render_template("display_result.html",img=res[next-1],hiden="hidden1")
 
 @app.route('/recommendprev')
 def recommend_previous():
     global next
     next=next-1
+    print("Value of next in recommend prev:",next)
     global res
     if(next>=0):
         mes=res[next]
         return render_template("display_result.html",img=mes)
     else:
         #flash("Reached end of list")
-        return render_template("display_result.html",img=res[next+1],hiden2="hidden")
+        return render_template("display_result.html",img=res[next+1],hiden="hidden2")
 
 if __name__ == '__main__':
     app.run(debug=True)
