@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import random
-
+import glob
 pants_arr=np.load("data_pants_common.npz")
 sports_arr=np.load("data_pants_sports_common.npz")
 party_arr=np.load("data_pants_party_common.npz")
@@ -25,6 +25,30 @@ index_shirt=[]
 index_shoe=[]
 l=[]
 res=[]
+
+# def recommend_default_new(occasion,uname):
+#     path_pants = []
+#     path_shirts = []
+#     path_shoes = []
+#     return_imgs = lambda item_type: glob.glob(os.path.join("users",uname,item_type,"**","*.jpg"),recursive=True)
+#     pant_imgs = return_imgs("pants")
+#     shirt_imgs = return_imgs("shirt") + return_imgs("t-shirt")
+#     shoe_imgs = return_imgs("shoes")
+#     empty_dict = {}
+#     for shirt in shirt_imgs:
+#         for pant in pant_imgs:
+#             for shoe in shoe_imgs:
+#                 empty_dict[shirt+pant+shoe] = "value"
+
+
+#     print(shirt_imgs)
+
+
+
+
+# recommend_default_new("test","hello")
+
+
 def recommend_default(type,color,occasion,uname):
         max=float('-inf')
         #occasion="None"

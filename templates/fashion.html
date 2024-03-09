@@ -6,13 +6,6 @@
     <li><a href="/logout">Logout</a></li>
   </ul>
 {% endblock %}
-    <script>
-var loadFile = function(event) {
-	var image = document.getElementById('output');
-	image.src = URL.createObjectURL(event.target.files[0]);
-};
-
-    </script>
 {% block content %}
 <center>
     <h1 class="font1">Upload Clothes to Your Wardrobe </h1>
@@ -21,13 +14,17 @@ var loadFile = function(event) {
 <br><br>
 <h3 class="font1"></h3>
 <form action="/fashionpredict" method="POST" enctype="multipart/form-data">
-    <input type="file" id='img' name='img' onchange="loadFile(event)" >
+    <input type="file" id='img' name='img' onchange="loadFile(event)" required>
     <p><img id="output" width="200" src="{{url_for('static', filename='test.jpg')}}" alt="" /></p>
     <br>
     <br>
     <input type="submit" value="Predict Type And Color Of Outfit">
 </form>
-<form action="/upload" method="POST" enctype="multipart/form-data">
+{% if image1 %}
+    <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+{% else %}
+    <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data" onsubmit="return changeImgFormOwnership()">
+{% endif %}
 <!---- <label for="occasion"> <h3 style="display:inline">The Outfit is for: </h3></label>
           <select name="occasion" id="occasion">
             <option value="party">Party</option>
@@ -35,7 +32,7 @@ var loadFile = function(event) {
             <option value="sports">Sports</option>
             <option value="function">Function</option>
           </select>
-        <br> <br>  --->  
+        <br> <br>  --->
 <label for="type"> <h3 class ="font1" style="display:inline;color:purple;">Type of the Outfit is: </h3></label>
 <select class="formstyle" name="type" id="type">
     {% if pred == "shirt" %}
@@ -246,5 +243,22 @@ var loadFile = function(event) {
 <h3>{{pred4}}</h3>
 <h3>{{pred5}}</h3>
 </center>
+<script>
+    var loadFile = function(event) {
+        var image = document.getElementById('output');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+    function changeImgFormOwnership(event){
+        alert("Inside this Handler");
+        var img = document.getElementById("img");
+        if(img.files.length == 0){
+            alert("Please select an image to upload");
+            return false;
+        }
+        img.setAttribute("form","uploadForm");
+        console.log(document.getElementById("img"));
+        return true;
+    }
+        </script>
 {% endblock %}
 </html>

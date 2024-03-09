@@ -1,3 +1,4 @@
+import json
 from enum import unique
 from flask import Flask, flash, redirect,request, send_from_directory,url_for,render_template
 from flask_sqlalchemy import SQLAlchemy
@@ -24,6 +25,7 @@ from PIL import Image, ImageOps
 import numpy as np
 import re
 import time
+from recommender_v2 import recommend_default_new,metadata_exists
 # fashion_model=tf.keras.models.load_model('models/fashion-010.model')
 # color_model=tf.keras.models.load_model('models/fashion-colors-020.model')
 color_model_2=load_model('models/keras_model.h5')
@@ -88,6 +90,14 @@ def hello_world():
 @app.route('/login')
 def login():
     return render_template("login.html")
+
+@app.route('/users/<user>')
+def get_users(user):
+    user = User.query.filter_by(uname=user).first()
+    return {
+        "Username":user.get_uname(),
+        "Id" : user.get_id()
+    }
 
 @app.route('/loginresult',methods=["POST"])
 def login_result():
@@ -226,11 +236,17 @@ def fashion_predict():
 @app.route('/upload',methods=["POST"])
 def outfit_upload():
     try:
+        print("Before Uploading A File:")
+        print(request)
+        print(request.form)
+        print(request.files)
         filestr = request.files['img'].read()
+        print("File Uploaded:")
         npimg = np.fromstring(filestr, np.uint8)
         img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
         cv2.imwrite("static/test.jpg",img)
-    except:
+    except Exception as e:
+        print(e)
         type=request.form["type"]
         color=request.form["color"]
     finally:
@@ -244,6 +260,10 @@ def outfit_upload():
 
 @app.route('/uploads/<path:filename>')
 def download_file(filename):
+    if "users\\" in filename:
+        filename = filename.lstrip('users\\').replace('\\','//')
+        print("File Name IS:")
+        print(filename)
     return send_from_directory("users/", filename, as_attachment=True)
 
 @app.route('/select')
@@ -299,6 +319,39 @@ def recommend_combination():
     print(next)
     #print(pred)
     return render_template("display_result.html",img=res[next])
+
+@app.route('/recommendtest',methods = ['POST'])
+def recommend_test_combination():
+    try:
+        pred=(request.form["cloth"]).split("/")
+        type=pred[1]
+        color=pred[2]
+        path=os.path.join("users",request.form["cloth"])
+    except werkzeug.exceptions.BadRequestKeyError:
+        type="None"
+        color="None"
+        path = "None"
+    occasion=request.form["occasion"]
+    if occasion == "sports":
+        occasion = "casual"
+    username = current_user.get_uname()
+    recommendation_type_key = path if path != "None" else "default"
+    metadata_path = os.path.join("users", username, "metadata.json")
+    if metadata_exists(occasion=occasion,uname=username,selected_path=path):
+        with open(metadata_path,"r") as json_file:
+            recommendations = json.load(json_file)[recommendation_type_key][occasion]
+    else:
+        res = recommend_default_new(occasion=occasion,uname=current_user.get_uname(),selected_type=type,selected_path=path)
+        recommendations = res[recommendation_type_key][occasion]
+        with open(metadata_path,"r") as json_file:
+            metadata_json = json.load(json_file)
+        metadata_json[recommendation_type_key][occasion] = recommendations
+        with open(metadata_path,"w") as json_file:
+            json.dump(metadata_json,json_file)
+
+    return render_template("display_result_2.html",recommendations = recommendations)
+    # print(res)
+
 
 @app.route('/recommendnext')
 def recommend_next():
